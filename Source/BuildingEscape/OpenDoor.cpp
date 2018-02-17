@@ -1,6 +1,7 @@
 // Copyright James Kyte 2018
 
 #include "OpenDoor.h"
+#include "Engine/World.h"
 #include "GameFramework/Actor.h"
 
 
@@ -19,8 +20,7 @@ UOpenDoor::UOpenDoor()
 void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
-
-	GetOwner()->SetActorRotation(FRotator(0.0f, -90.0f, 0.0f));
+	RequiredActor = GetWorld()->GetFirstPlayerController()->GetPawn();
 }
 
 
@@ -29,6 +29,15 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	if (PressurePlate->IsOverlappingActor(RequiredActor))
+	{
+		GetOwner()->SetActorRotation(FRotator(0.0f, -90.0f, 0.0f));
+		LastDoorOpenTime = GetWorld()->GetTimeSeconds();
+	}
+
+	if ((GetWorld()->GetTimeSeconds() - LastDoorOpenTime) >= DoorCloseDelay)
+	{
+		GetOwner()->SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
+	}
 }
 

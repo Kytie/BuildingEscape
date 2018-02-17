@@ -19,7 +19,7 @@ void UPositionReport::BeginPlay()
 {
 	Super::BeginPlay();
 	// Dereferencing stuff as it converts FStrings to TCHAR array which is what UE_LOG wants to pass variables into string.
-	UE_LOG(LogTemp, Warning, TEXT("%s is at %s"), *GetOwner()->GetName(), *GetOwner()->GetActorLocation().ToString());
+	UE_LOG(LogTemp, Warning, TEXT("%s is at %s"), *GetOwner()->GetName(), *GetOwner()->GetActorLocation().ToString())
 	
 }
 
