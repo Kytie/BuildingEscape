@@ -9,6 +9,24 @@
 #include "Components/PrimitiveComponent.h"
 #include "Grabber.generated.h"
 
+USTRUCT()
+struct FPlayerViewPoint
+{
+	GENERATED_BODY()
+
+	UPROPERTY()
+		FVector ViewLocation;
+
+	UPROPERTY()
+		FRotator ViewRotation;
+
+	//Constructor
+	FPlayerViewPoint()
+	{
+		ViewLocation = FVector(0.0f, 0.0f, 0.0f);
+		ViewRotation = FRotator(0.0f, 0.0f, 0.0f);
+	}
+};
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BUILDINGESCAPE_API UGrabber : public UActorComponent
@@ -34,9 +52,14 @@ private:
 
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
 	UInputComponent* InputComponent = nullptr;
+	// Player viewpoint variable (UGrabber private member)
+	FPlayerViewPoint PlayerViewPoint;
+
 	bool RetrieveComponents();
 	void BindInputs();
 	void Grab();
 	void Release();
-	FHitResult GetFirstPhysicsBodyInReach() const;
+	FHitResult GetFirstPhysicsBodyInReach();
+	FVector GetReachLineEnd();
+	void GetPlayerViewPoint();
 };
