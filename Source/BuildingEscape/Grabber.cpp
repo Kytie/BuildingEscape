@@ -29,6 +29,8 @@ void UGrabber::BeginPlay()
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (!PhysicsHandle) { return; }
 	if (PhysicsHandle->GrabbedComponent)
 	{
 		PhysicsHandle->SetTargetLocation(GetReachLineEnd());
@@ -74,6 +76,8 @@ void UGrabber::Grab()
 void UGrabber::Release()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Release event triggered!"))
+
+	if (!PhysicsHandle) { return; }
 	if (PhysicsHandle->GrabbedComponent)
 	{
 		PhysicsHandle->ReleaseComponent();
